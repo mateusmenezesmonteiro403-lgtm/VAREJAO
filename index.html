@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Varejão Peças Usadas</title>
+<style>
+:root{--bg:#f1f3f6;--card:#fff;--tx:#1b1f24;--mu:#6b7280;--bd:#e1e4e9;--pr:#c2410c;--pr2:#fff1e8;--ok:#15803d;--bad:#b91c1c;--wa:#f59e0b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121417;--card:#1d2024;--tx:#eceef1;--mu:#98a0ab;--bd:#31353b;--pr:#fb923c;--pr2:#2b1d12;--ok:#4ade80;--bad:#f87171;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121417;--card:#1d2024;--tx:#eceef1;--mu:#98a0ab;--bd:#31353b;--pr:#fb923c;--pr2:#2b1d12;--ok:#4ade80;--bad:#f87171;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.logo{font-weight:800;font-size:18px}.logo span{color:var(--pr)}
+.role{font-size:11px;padding:3px 9px;border-radius:12px;background:var(--pr2);color:var(--pr);font-weight:700}
+nav{display:flex;gap:6px;overflow-x:auto;padding:0 10px 10px;position:sticky;top:0;background:var(--bg);z-index:5}
+nav button{white-space:nowrap;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 14px;border-radius:22px;font-size:14px;font-weight:600}
+nav button.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+main{padding:0 10px 50px;max-width:1020px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+h2{font-size:16px;margin:0 0 10px}
+label{display:block;font-size:12px;color:var(--mu);margin:8px 0 3px}
+input,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font:inherit}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:9px;padding:11px 16px;font-weight:700;margin-top:10px}
+.btn.s{background:var(--card);color:var(--tx);border:1px solid var(--bd);padding:6px 10px;margin:0 2px 0 0;font-weight:500;font-size:13px}
+.btn.d{color:var(--bad)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin-bottom:12px}
+.k{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px}.k span{font-size:12px;color:var(--mu)}.k b{display:block;font-size:20px;margin-top:3px}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.mu{color:var(--mu);font-size:12px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-weight:600;font-size:12px}
+.al{border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.al.r{background:#fee2e2;color:#7f1d1d}.al.y{background:#fef3c7;color:#78350f}
+a.wa{background:#16a34a;color:#fff;text-decoration:none;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:600}
+.bar{height:9px;border-radius:5px;background:var(--pr);margin-top:4px}
+.item{display:grid;grid-template-columns:2fr 1.3fr 1fr auto;gap:6px;margin-bottom:6px}
+@media(max-width:560px){.item{grid-template-columns:1fr 1fr}}
+#warn{display:none;margin:0 10px 10px;background:#fee2e2;color:#7f1d1d;padding:10px;border-radius:10px}
+#pr{display:none}.ov{position:fixed;inset:0;background:#0007;display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}.md{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;max-width:380px;width:100%}.toast{position:fixed;left:12px;right:12px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:#1b1f24;color:#fff;padding:12px;border-radius:10px;z-index:100;text-align:center}.ai{white-space:pre-wrap;line-height:1.5}
+@media print{body>*:not(#pr){display:none!important}#pr{display:block;color:#000;background:#fff;padding:10px;font:13px monospace;max-width:300px}}
+</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script></head><body>
+<header><div class="logo">Varejão <span>Peças Usadas</span></div><div><span class="role" id="role"></span> <span class="mu" id="st">conectando…</span></div></header>
+<div id="warn">Não consegui conectar ao banco de dados, então nada será salvo. Abra este link no Safari ou Chrome, logado na sua conta do Claude (o navegador de dentro do WhatsApp não mantém o login).</div>
+<div id="login" style="display:none"></div><nav id="nav"></nav><main id="main"></main><div id="pr"></div>
+<script>
+let tab="os",db=null,boss=true,dl=null,D={cars:[],clients:[],sales:[],caixa:[],staff:[]},draft=[{}],editId=null,vend="";
+const ym=new Date().toISOString().slice(0,7);let R={from:ym+"-01",to:""};
+const $=s=>document.querySelector(s),brl=n=>(+n||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const today=()=>new Date().toISOString().slice(0,10);R.to=today();
+const addDays=(d,n)=>{const x=new Date(d+"T12:00:00");x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+const diff=(a,b)=>Math.round((new Date(a+"T12:00:00")-new Date(b+"T12:00:00"))/864e5);
+const fd=d=>d?d.split("-").reverse().join("/"):"";
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const val=id=>$("#"+id)?.value?.trim()||"";
+function toast(m){const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),4500)}
+window.alert=toast;
+function ask(msg,def){const isP=arguments.length>1;return new Promise(res=>{const o=document.createElement("div");o.className="ov";o.innerHTML=`<div class="md"><p style="margin-top:0"></p>${isP?'<input id="askin">':""}<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px"><button class="btn s" id="ask0">Cancelar</button><button class="btn" id="ask1" style="margin:0">OK</button></div></div>`;o.querySelector("p").textContent=msg;document.body.appendChild(o);const i=o.querySelector("#askin");if(i){i.value=def??"";i.focus()}const end=v=>{o.remove();res(v)};o.querySelector("#ask0").onclick=()=>end(isP?null:false);o.querySelector("#ask1").onclick=()=>end(isP?i.value:true)})}
+let ai={txt:"",busy:false,q:""};
+const PAG=["Pix","Cartão de crédito","Cartão de débito","Dinheiro","A prazo"];
+const inR=d=>(!R.from||d>=R.from)&&(!R.to||d<=R.to);
+async function save(c,id,d){if(!db)return alert("Banco indisponível.");try{await db.collection(c).doc(id).set(d)}catch(e){alert("Erro ao salvar: "+(e.message||e.code))}}
+async function del(c,id){try{await db.collection(c).doc(id).delete()}catch(e){alert("Erro ao apagar: "+(e.message||e.code))}}
+const strip=o=>{const x={...o};delete x.id;return x};
+const SUPABASE_URL="https://ntkbrmwvoywwsomsyxmc.supabase.co",SUPABASE_KEY="sb_publishable_ZPziTfW0TsVQWBP6jfreHA_vaEwf1Q-";
+let sb,LOJA,loaders=[];
+dl={save:async({filename,data})=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:"text/plain"}));a.download=filename;a.click()}};
+function mkDb(){return{collection:c=>({
+ onSnapshot(next,err){const load=async()=>{let all=[],f=0;for(;;){const {data,error}=await sb.from("docs").select("id,dados").eq("loja_id",LOJA).eq("col",c).order("id").range(f,f+999);if(error)return err&&err({code:error.code});all=all.concat(data);if(data.length<1000)break;f+=1000}next({docs:all.map(r=>({id:r.id,data:()=>r.dados}))})};
+  loaders.push(load);load();const ch=sb.channel("r-"+c).on("postgres_changes",{event:"*",schema:"public",table:"docs"},()=>load()).subscribe();return()=>sb.removeChannel(ch)},
+ doc:id=>({set:async d=>{const {error}=await sb.from("docs").upsert({loja_id:LOJA,col:c,id,dados:JSON.parse(JSON.stringify(d))});if(error)throw error;loaders.forEach(f=>f())},
+  delete:async()=>{const {error}=await sb.from("docs").delete().match({loja_id:LOJA,col:c,id});if(error)throw error;loaders.forEach(f=>f())}})})}}
+function loginUI(msg){$("#nav").innerHTML="";$("#main").innerHTML="";$("#role").textContent="";const l=$("#login");l.style.display="block";l.innerHTML=`<main><div class="card" style="max-width:380px;margin:20px auto"><h2>Entrar</h2>${msg?`<p class="bad">${esc(msg)}</p>`:""}<label>E-mail</label><input id="le" type="email" autocomplete="username"><label>Senha</label><input id="lp" type="password" autocomplete="current-password"><button class="btn" onclick="entrar()">Entrar</button> <button class="btn s" onclick="criar()">Criar conta</button><div style="margin-top:12px"><button class="btn s" onclick="google()">Entrar com Google</button></div></div></main>`}
+async function entrar(){const {error}=await sb.auth.signInWithPassword({email:val("le"),password:$("#lp").value});if(error)return alert("E-mail ou senha incorretos.");start()}
+async function criar(){const {error}=await sb.auth.signUp({email:val("le"),password:$("#lp").value});if(error)return alert(error.message);alert("Conta criada. Se pedir confirmação, abra o e-mail que chegou e depois clique em Entrar.")}
+async function google(){const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.href.split("#")[0]}});if(error)alert(error.message)}
+async function sair(){await sb.auth.signOut();location.reload()}
+async function start(){
+ const {data:{session}}=await sb.auth.getSession();if(!session)return loginUI();
+ await sb.rpc("aceitar_convite");
+ const {data:m}=await sb.from("membros").select("loja_id,papel").limit(1);
+ if(!m||!m.length)return loginUI("Seu e-mail ainda não foi liberado. Peça ao chefe para liberar.");
+ LOJA=m[0].loja_id;boss=m[0].papel=="chefe";db=mkDb();$("#login").style.display="none";
+ $("#role").innerHTML=(boss?"CHEFE":"FUNCIONÁRIO")+' · <a href="#" onclick="sair();return false" style="color:inherit">sair</a>';
+ let n=0;for(const c of Object.keys(D))db.collection(c).onSnapshot(sn=>{D[c]=sn.docs.map(d=>({id:d.id,...d.data()}));if(++n>=5)$("#st").textContent="salvo ✓";render()},e=>{$("#st").textContent="erro "+e.code});
+ render()}
+async function init(){
+ if(!window.supabase||SUPABASE_URL.startsWith("COLE")){$("#warn").style.display="block";$("#warn").textContent="Não carregou o Supabase. Confira a internet ou se a URL e a chave estão no topo do script.";return}
+ sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+ sb.auth.onAuthStateChange(e=>{if(e=="SIGNED_OUT")loginUI()});
+ start()}
+const TABS=()=>boss?[["dash","Painel"],["os","Vender"],["rec","A receber"],["cars","Carros"],["caixa","Caixa"],["cli","Clientes"],["rel","Relatórios"],["staff","Equipe"]]:[["os","Vender"],["rec","A receber"],["cli","Clientes"]];
+function go(t){tab=t;render()}
+function render(){if(!TABS().some(t=>t[0]==tab))tab="os";$("#nav").innerHTML=TABS().map(([k,l])=>{const n=k=="rec"?D.sales.filter(s=>aberto(s)&&s.venc<=addDays(today(),3)).length:0;return `<button class="${k==tab?"on":""}" onclick="go('${k}')">${l}${n?` 🔔${n}`:""}</button>`}).join("");$("#main").innerHTML=({dash,os,cars,caixa,cli,rec,rel,staff,ia})[tab]()}
+const aberto=s=>!s.pago&&s.pag==="A prazo";
+const carRev=p=>D.sales.flatMap(s=>(s.itens||[]).filter(i=>i.placa===p).map(i=>+i.valor||0)).reduce((a,b)=>a+b,0);
+const sum=(l,f)=>l.reduce((a,b)=>a+f(b),0);
+const saldo=()=>sum(D.caixa,m=>m.tipo=="entrada"?m.valor:-m.valor);
+function alerts(){const t=today(),l=D.sales.filter(aberto).sort((a,b)=>a.venc.localeCompare(b.venc));
+ return l.filter(s=>s.venc<=addDays(t,3)).map(s=>{const d=diff(t,s.venc),late=d>0,c=D.clients.find(x=>x.id==s.cid),tel=(c?.tel||"").replace(/\D/g,"");
+  const msg=encodeURIComponent(`Olá ${s.cliente}, tudo bem? Passando para lembrar da nota nº ${s.num} de ${brl(s.total)} com vencimento em ${fd(s.venc)}. Varejão Peças Usadas.`);
+  return `<div class="al ${late?"r":"y"}"><div><b>${esc(s.cliente)}</b> — ${brl(s.total)} — OS ${s.num}<br>${late?`Vencida há ${d} dia(s)`:d==0?"Vence hoje":`Vence em ${-d} dia(s)`} (${fd(s.venc)})</div>${tel?`<a class="wa" target="_blank" href="https://wa.me/55${tel}?text=${msg}">Cobrar</a>`:""}</div>`}).join("")}
+function carTable(a){if(!D.cars.length)return'<p class="mu">Nenhum carro lançado.</p>';
+ return `<div class="tw"><table><tr><th>Placa</th><th>Carro</th><th>Custo</th><th>Vendido</th><th>Situação</th>${a?"<th></th>":""}</tr>${D.cars.map(c=>{const r=carRev(c.id),f=(+c.custo||0)-r;return `<tr><td><b>${esc(c.id)}</b></td><td>${esc(c.desc)}</td><td>${brl(c.custo)}</td><td>${brl(r)}</td><td class="${f>0?"bad":"ok"}">${f>0?"falta "+brl(f):"pago ✓ lucro "+brl(-f)}</td>${a?`<td><button class="btn s" onclick="editCar('${c.id}')">Editar</button><button class="btn s d" onclick="delCar('${c.id}')">Apagar</button></td>`:""}</tr>`}).join("")}</table></div>`}
+function dash(){const t=today(),mes=D.sales.filter(s=>s.data.slice(0,7)==t.slice(0,7));
+ return `${alerts()}<div class="kpis"><div class="k"><span>Saldo do caixa</span><b class="${saldo()>=0?"ok":"bad"}">${brl(saldo())}</b></div><div class="k"><span>Vendas no mês</span><b>${brl(sum(mes,s=>s.total))}</b></div><div class="k"><span>A receber</span><b>${brl(sum(D.sales.filter(aberto),s=>s.total))}</b></div><div class="k"><span>Investido em carros</span><b>${brl(sum(D.cars,c=>+c.custo||0))}</b></div></div><div class="card"><h2>Carros — quanto falta para se pagar</h2>${carTable(false)}</div>`}
+function os(){const L=[...D.sales].sort((a,b)=>b.num-a.num).slice(0,boss?40:10);
+ return `<div class="card"><h2>${editId?"Editando OS "+D.sales.find(s=>s.id==editId)?.num:"Nova OS / Venda"}</h2>
+ <div class="row"><div><label>Vendedor</label><select id="vd" onchange="vend=this.value"><option value="">— escolha —</option>${D.staff.map(f=>`<option ${vend==f.nome?"selected":""}>${esc(f.nome)}</option>`).join("")}</select></div></div>
+ <label>Itens: peça, carro de origem, valor</label>${draft.map((it,i)=>`<div class="item"><input placeholder="Peça" value="${esc(it.desc)}" oninput="draft[${i}].desc=this.value"><select onchange="draft[${i}].placa=this.value"><option value="EXISTENTE">Peça já existente</option>${D.cars.map(c=>`<option value="${esc(c.id)}" ${it.placa==c.id?"selected":""}>${esc(c.id)} ${esc(c.desc)}</option>`).join("")}</select><input type="number" step="0.01" placeholder="R$" value="${it.valor??""}" oninput="draft[${i}].valor=this.value;tot()"><button class="btn s d" onclick="draft.splice(${i},1);if(!draft.length)draft=[{}];render()">✕</button></div>`).join("")}
+ <button class="btn s" onclick="draft.push({});render()">+ item</button>
+ <div class="row"><div><label>Pagamento</label><select id="pg" onchange="pgc()">${PAG.map(p=>`<option>${p}</option>`).join("")}</select></div><div id="cw" style="display:none"><label>Cliente cadastrado</label><select id="cl">${D.clients.map(c=>`<option value="${esc(c.id)}">${esc(c.nome)}</option>`).join("")}</select></div><div id="vw" style="display:none"><label>Vencimento</label><input id="vc" type="date" value="${addDays(today(),30)}"></div></div>
+ <p><b>Total: <span id="tt">${brl(sum(draft,i=>+i.valor||0))}</span></b></p><button class="btn" onclick="venda()">${editId?"Salvar alteração":"Finalizar e imprimir"}</button>${editId?` <button class="btn s" onclick="editId=null;draft=[{}];render()">Cancelar</button>`:""}</div>
+ <div class="card"><h2>Vendas recentes</h2>${L.length?`<div class="tw"><table><tr><th>Nº</th><th>Data</th><th>Vendedor</th><th>Cliente</th><th>Pgto</th><th>Total</th><th></th></tr>${L.map(s=>`<tr><td>${s.num}</td><td>${fd(s.data)}</td><td>${esc(s.vendedor||"—")}</td><td>${esc(s.cliente)}</td><td>${s.pag}${aberto(s)?" ⏳":""}</td><td>${brl(s.total)}</td><td><button class="btn s" onclick="imp('${s.id}')">Imprimir</button>${boss?`<button class="btn s" onclick="editSale('${s.id}')">Editar</button><button class="btn s d" onclick="delSale('${s.id}')">Apagar</button>`:""}</td></tr>`).join("")}</table></div>`:'<p class="mu">Sem vendas.</p>'}</div>`}
+function tot(){$("#tt").textContent=brl(sum(draft,i=>+i.valor||0))}
+function pgc(){const a=val("pg")=="A prazo";$("#cw").style.display=a?"block":"none";$("#vw").style.display=a?"block":"none"}
+async function venda(){const itens=draft.filter(i=>i.desc&&+i.valor>0).map(i=>({desc:i.desc,placa:i.placa||"EXISTENTE",valor:+i.valor}));
+ if(!itens.length)return alert("Adicione pelo menos um item com valor.");if(!vend&&D.staff.length)return alert("Escolha o vendedor.");
+ const total=sum(itens,i=>i.valor),pag=val("pg"),old=editId?D.sales.find(s=>s.id==editId):null;
+ const num=old?old.num:D.sales.reduce((a,s)=>Math.max(a,s.num||0),0)+1,id=old?old.id:"os-"+String(num).padStart(6,"0");let cliente="Balcão",cid=null;
+ if(pag=="A prazo"){const c=D.clients.find(x=>x.id==val("cl"));if(!c)return alert("A prazo só para cliente cadastrado.");
+  const usado=sum(D.sales.filter(s=>aberto(s)&&s.cid==c.id&&s.id!=id),s=>s.total);if(usado+total>(+c.limite||0))return alert(`Limite excedido. Limite ${brl(c.limite)}, em aberto ${brl(usado)}, esta venda ${brl(total)}.`);cliente=c.nome;cid=c.id}
+ const s={num,data:old?old.data:today(),itens,total,pag,cliente,cid,vendedor:vend,venc:pag=="A prazo"?val("vc"):null,pago:pag!="A prazo"};
+ await save("sales",id,s);if(old){await del("caixa","v-"+id);await del("caixa","r-"+id)}
+ if(pag!="A prazo")await save("caixa","v-"+id,{tipo:"entrada",valor:total,desc:`Venda OS ${num} (${pag})`,data:s.data,ref:id});
+ editId=null;draft=[{}];s.id=id;D.sales=[...D.sales.filter(x=>x.id!=id),s];render();imp(id)}
+function editSale(id){const s=D.sales.find(x=>x.id==id);draft=s.itens.map(i=>({...i}));editId=id;vend=s.vendedor||"";render();scrollTo(0,0)}
+async function delSale(id){if(!await ask("Apagar esta venda? O lançamento no caixa também será removido."))return;await del("sales",id);await del("caixa","v-"+id);await del("caixa","r-"+id)}
+function imp(id){const s=D.sales.find(x=>x.id==id);if(!s)return;$("#pr").innerHTML=`<b>VAREJÃO PEÇAS USADAS</b><br>OS nº ${s.num} — ${fd(s.data)}<br>Cliente: ${esc(s.cliente)}<br>Vendedor: ${esc(s.vendedor||"—")}<hr>${s.itens.map(i=>`${esc(i.desc)} [${i.placa=="EXISTENTE"?"existente":esc(i.placa)}]<br>&nbsp;&nbsp;${brl(i.valor)}`).join("<br>")}<hr><b>TOTAL ${brl(s.total)}</b><br>Pagamento: ${s.pag}${s.venc?"<br>Vence: "+fd(s.venc):""}<br><br>Obrigado!`;nota(s)}
+function nota(s){const h=$("#pr").innerHTML,o=document.createElement("div");o.className="ov";o.innerHTML=`<div class="md" style="max-height:90vh;overflow:auto"><div style="font:13px monospace;background:#fff;color:#000;padding:10px;border-radius:8px">${h}</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn s" id="n1">Imprimir</button><button class="btn s" id="n2">Baixar nota</button><button class="btn" id="n3" style="margin:0">Fechar</button></div></div>`;document.body.appendChild(o);o.querySelector("#n1").onclick=()=>{try{window.print()}catch(e){alert("Impressão bloqueada. Use Baixar nota.")}};o.querySelector("#n2").onclick=async()=>{if(!dl)return alert("Download indisponível.");try{await dl.save({filename:"OS-"+s.num+".html",data:`<!DOCTYPE html><meta charset="utf-8"><title>OS ${s.num}</title><body style="font:14px monospace;max-width:320px;margin:20px">${h}`})}catch(e){}};o.querySelector("#n3").onclick=()=>o.remove()}
+function cars(){return `<div class="card"><h2>Lançar carro comprado</h2><div class="row"><div><label>Placa</label><input id="cp" placeholder="ABC1D23"></div><div><label>Carro</label><input id="cd"></div><div><label>Custo (R$)</label><input id="cc" type="number" step="0.01"></div><div><label>Data</label><input id="cdt" type="date" value="${today()}"></div></div><button class="btn" onclick="addCar()">Salvar carro</button><p class="mu">O custo sai automaticamente do caixa.</p></div><div class="card"><h2>Carros</h2>${carTable(true)}</div>`}
+async function addCar(){const p=val("cp").toUpperCase().replace(/[^A-Z0-9]/g,""),c=+val("cc");if(!p||!c)return alert("Informe placa e custo.");if(D.cars.some(x=>x.id===p))return alert("Placa já lançada.");
+ await save("cars",p,{desc:val("cd"),custo:c,data:val("cdt")});await save("caixa","car-"+p,{tipo:"saida",valor:c,desc:"Compra do carro "+p,data:val("cdt"),ref:p})}
+async function editCar(p){const c=D.cars.find(x=>x.id==p),d=await ask("Descrição do carro:",c.desc);if(d===null)return;const v=await ask("Custo (R$):",c.custo);if(v===null)return;const n=+String(v).replace(",",".");if(!n)return alert("Valor inválido.");
+ await save("cars",p,{...strip(c),desc:d,custo:n});await save("caixa","car-"+p,{tipo:"saida",valor:n,desc:"Compra do carro "+p,data:c.data,ref:p})}
+async function delCar(p){if(D.sales.some(s=>s.itens.some(i=>i.placa==p)))return alert("Este carro tem peças vendidas. Apague ou edite essas vendas antes.");if(!await ask("Apagar o carro "+p+" e a saída do caixa?"))return;await del("cars",p);await del("caixa","car-"+p)}
+function caixa(){const l=[...D.caixa].sort((a,b)=>(b.data||"").localeCompare(a.data||""));
+ return `<div class="kpis"><div class="k"><span>Saldo</span><b class="${saldo()>=0?"ok":"bad"}">${brl(saldo())}</b></div></div><div class="card"><h2>Lançamento manual</h2><div class="row"><div><label>Tipo</label><select id="mt"><option value="entrada">Entrada</option><option value="saida">Saída</option></select></div><div><label>Valor</label><input id="mv" type="number" step="0.01"></div><div><label>Descrição</label><input id="md"></div><div><label>Data</label><input id="mdt" type="date" value="${today()}"></div></div><button class="btn" onclick="mov()">Lançar</button></div>
+ <div class="card"><h2>Movimentos</h2><div class="tw"><table><tr><th>Data</th><th>Descrição</th><th>Entrada</th><th>Saída</th><th></th></tr>${l.map(m=>`<tr><td>${fd(m.data)}</td><td>${esc(m.desc)}</td><td class="ok">${m.tipo=="entrada"?brl(m.valor):""}</td><td class="bad">${m.tipo=="saida"?brl(m.valor):""}</td><td>${m.id.startsWith("m-")?`<button class="btn s" onclick="editMov('${m.id}')">Editar</button><button class="btn s d" onclick="delMov('${m.id}')">Apagar</button>`:'<span class="mu">automático</span>'}</td></tr>`).join("")}</table></div></div>`}
+async function mov(){const v=+val("mv");if(!v)return alert("Informe o valor.");await save("caixa","m-"+Date.now(),{tipo:val("mt"),valor:v,desc:val("md")||"Lançamento manual",data:val("mdt")})}
+async function editMov(id){const m=D.caixa.find(x=>x.id==id),d=await ask("Descrição:",m.desc);if(d===null)return;const v=await ask("Valor (R$):",m.valor);if(v===null)return;const n=+String(v).replace(",",".");if(!n)return alert("Valor inválido.");await save("caixa",id,{...strip(m),desc:d,valor:n})}
+async function delMov(id){if(await ask("Apagar este lançamento?"))await del("caixa",id)}
+function cli(){return `${boss?`<div class="card"><h2>Cadastrar cliente</h2><div class="row"><div><label>Nome</label><input id="cn"></div><div><label>WhatsApp (com DDD)</label><input id="ct" inputmode="tel"></div><div><label>CPF/CNPJ</label><input id="cx"></div><div><label>Limite a prazo (R$)</label><input id="cl2" type="number" step="0.01"></div></div><button class="btn" onclick="addCli()">Salvar cliente</button></div>`:""}
+ <div class="card"><h2>Clientes</h2><div class="tw"><table><tr><th>Nome</th><th>Tel.</th><th>Limite</th><th>Em aberto</th><th></th></tr>${D.clients.map(c=>{const u=sum(D.sales.filter(s=>aberto(s)&&s.cid==c.id),s=>s.total);return `<tr><td>${esc(c.nome)}</td><td>${esc(c.tel)}</td><td>${brl(c.limite)}</td><td class="${u>0?"bad":""}">${brl(u)}</td><td>${boss?`<button class="btn s" onclick="editCli('${c.id}')">Editar</button><button class="btn s d" onclick="delCli('${c.id}')">Apagar</button>`:""}</td></tr>`}).join("")}</table></div></div>`}
+async function addCli(){const n=val("cn");if(!n)return alert("Informe o nome.");await save("clients","c-"+Date.now(),{nome:n,tel:val("ct"),doc:val("cx"),limite:+val("cl2")||0})}
+async function editCli(id){const c=D.clients.find(x=>x.id==id),n=await ask("Nome:",c.nome);if(n===null)return;const t=await ask("WhatsApp:",c.tel||"");if(t===null)return;const l=await ask("Limite (R$):",c.limite);if(l===null)return;await save("clients",id,{...strip(c),nome:n,tel:t,limite:+String(l).replace(",",".")||0})}
+async function delCli(id){if(D.sales.some(s=>aberto(s)&&s.cid==id))return alert("Cliente com nota em aberto.");if(await ask("Apagar cliente?"))await del("clients",id)}
+function rec(){const l=D.sales.filter(aberto).sort((a,b)=>a.venc.localeCompare(b.venc));
+ return `${alerts()}<div class="card"><h2>Notas a prazo em aberto</h2>${l.length?`<div class="tw"><table><tr><th>OS</th><th>Cliente</th><th>Venda</th><th>Vence</th><th>Valor</th><th></th></tr>${l.map(s=>`<tr><td>${s.num}</td><td>${esc(s.cliente)}</td><td>${fd(s.data)}</td><td class="${s.venc<today()?"bad":""}">${fd(s.venc)}</td><td>${brl(s.total)}</td><td><button class="btn s" onclick="baixa('${s.id}')">Receber</button></td></tr>`).join("")}</table></div>`:'<p class="mu">Nada a receber.</p>'}</div>`}
+async function baixa(id){const s=D.sales.find(x=>x.id==id),f=await ask("Recebido via (Pix, Dinheiro, Cartão):","Pix");if(f===null)return;await save("sales",id,{...strip(s),pago:true,recebidoEm:today(),recebidoVia:f});await save("caixa","r-"+id,{tipo:"entrada",valor:s.total,desc:`Recebimento OS ${s.num} (${s.cliente}) via ${f}`,data:today(),ref:id})}
+function staff(){return `<div class="card"><h2>Cadastrar funcionário / vendedor</h2><div class="row"><div><label>Nome</label><input id="fn"></div></div><button class="btn" onclick="addF()">Salvar</button></div><div class="card"><h2>Equipe</h2>${D.staff.map(f=>`<div class="al" style="background:var(--bg)"><b>${esc(f.nome)}</b><span><button class="btn s" onclick="editF('${f.id}')">Editar</button><button class="btn s d" onclick="delF('${f.id}')">Apagar</button></span></div>`).join("")||'<p class="mu">Ninguém cadastrado.</p>'}<h2 style="margin-top:16px">Liberar acesso ao sistema</h2><label>E-mail da pessoa (o mesmo que ela vai usar para entrar, inclusive no Google)</label><input id="fe" type="email"><button class="btn" onclick="conv()">Liberar como funcionário</button><p class="mu">Funcionário só vende e recebe. Editar, apagar e relatórios ficam só com o chefe.</p></div>`}
+async function addF(){const n=val("fn");if(!n)return;await save("staff","f-"+Date.now(),{nome:n})}
+async function editF(id){const f=D.staff.find(x=>x.id==id),n=await ask("Nome:",f.nome);if(n)await save("staff",id,{nome:n})}
+async function delF(id){if(await ask("Apagar funcionário? As vendas antigas continuam com o nome dele."))await del("staff",id)}
+async function conv(){const e=val("fe").toLowerCase();if(!e)return alert("Digite o e-mail.");const {error}=await sb.from("convites").insert({email:e,loja_id:LOJA,papel:"funcionario"});if(error)return alert("Erro: "+error.message);alert("Liberado. A pessoa já pode entrar com esse e-mail.")}
+function setR(k,v){R[k]=v;render()}
+function pre(p){const t=today(),y=t.slice(0,4);R=p=="h"?{from:t,to:t}:p=="m"?{from:t.slice(0,7)+"-01",to:t}:p=="a"?{from:y+"-01-01",to:t}:{from:"",to:""};render()}
+function grp(l,f){const o={};l.forEach(x=>{const k=f(x);o[k]=(o[k]||0)+x.total});return Object.entries(o).sort((a,b)=>b[1]-a[1])}
+function bars(e){const m=Math.max(1,...e.map(x=>x[1]));return e.map(([k,v])=>`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between"><span>${esc(k)}</span><b>${brl(v)}</b></div><div class="bar" style="width:${Math.max(2,v/m*100)}%"></div></div>`).join("")||'<p class="mu">Sem dados no período.</p>'}
+function rel(){const V=D.sales.filter(s=>inR(s.data)),C=D.caixa.filter(m=>inR(m.data)),ent=sum(C.filter(m=>m.tipo=="entrada"),m=>m.valor),sai=sum(C.filter(m=>m.tipo=="saida"),m=>m.valor);
+ const cr=D.cars.map(c=>[c.id+" "+c.desc,V.flatMap(s=>s.itens.filter(i=>i.placa==c.id)).reduce((a,i)=>a+i.valor,0)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).slice(0,8);
+ return `<div class="card"><h2>Período</h2><div class="row"><div><label>De</label><input type="date" value="${R.from}" onchange="setR('from',this.value)"></div><div><label>Até</label><input type="date" value="${R.to}" onchange="setR('to',this.value)"></div></div><div style="margin-top:8px"><button class="btn s" onclick="pre('h')">Hoje</button><button class="btn s" onclick="pre('m')">Este mês</button><button class="btn s" onclick="pre('a')">Este ano</button><button class="btn s" onclick="pre('t')">Tudo</button></div></div>
+ <div class="kpis"><div class="k"><span>Vendido</span><b>${brl(sum(V,s=>s.total))}</b></div><div class="k"><span>Nº de vendas</span><b>${V.length}</b></div><div class="k"><span>Ticket médio</span><b>${brl(V.length?sum(V,s=>s.total)/V.length:0)}</b></div><div class="k"><span>Entradas (caixa)</span><b class="ok">${brl(ent)}</b></div><div class="k"><span>Saídas (caixa)</span><b class="bad">${brl(sai)}</b></div><div class="k"><span>Resultado</span><b class="${ent-sai>=0?"ok":"bad"}">${brl(ent-sai)}</b></div></div>
+ <div class="card"><h2>🏆 Ranking de vendedores</h2>${bars(grp(V,s=>s.vendedor||"Sem vendedor"))}</div>
+ <div class="card"><h2>Por forma de pagamento</h2>${bars(grp(V,s=>s.pag))}</div>
+ <div class="card"><h2>Carros que mais renderam</h2>${bars(cr)}</div>
+ <div class="card"><h2>Vendas por mês</h2>${bars(grp(V,s=>s.data.slice(0,7)).sort((a,b)=>a[0].localeCompare(b[0])))}</div>
+ <button class="btn" onclick="csv()">Baixar vendas (CSV)</button> <button class="btn s" onclick="window.print()" style="display:none"></button>`}
+function stats(){const parts={},mod={};D.sales.forEach(s=>s.itens.forEach(i=>{const k=(i.desc||"").trim().toLowerCase();parts[k]=parts[k]||{n:0,v:0};parts[k].n++;parts[k].v+=i.valor}));D.cars.forEach(c=>{const k=(c.desc||c.id).trim().toLowerCase();mod[k]=mod[k]||{carros:0,custo:0,receita:0};mod[k].carros++;mod[k].custo+=+c.custo||0;mod[k].receita+=carRev(c.id)});return{parts:Object.entries(parts).sort((a,b)=>b[1].v-a[1].v),mod:Object.entries(mod).sort((a,b)=>b[1].receita-a[1].receita)}}
+function ia(){const S=stats();return `<div class="card"><h2>✨ Análise com IA</h2><label>Pergunta (opcional)</label><input id="aq" placeholder="Ex.: qual modelo compensa comprar de novo?" value="${esc(ai.q)}" oninput="ai.q=this.value"><button class="btn" onclick="runAI()" ${ai.busy?"disabled":""}>${ai.busy?"Analisando…":"Analisar meu negócio"}</button><div class="ai" id="aitx" style="margin-top:12px">${esc(ai.txt)}</div></div><div class="card"><h2>Peças que mais vendem</h2>${bars(S.parts.slice(0,10).map(([k,v])=>[k+" ("+v.n+"x)",v.v]))}</div><div class="card"><h2>Modelos: receita de peças x custo</h2><div class="tw"><table><tr><th>Modelo</th><th>Carros</th><th>Custo</th><th>Receita</th><th>Retorno</th></tr>${S.mod.map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v.carros}</td><td>${brl(v.custo)}</td><td>${brl(v.receita)}</td><td class="${v.receita>=v.custo?"ok":"bad"}">${v.custo?Math.round(v.receita/v.custo*100)+"%":"—"}</td></tr>`).join("")}</table></div></div>`}
+async function runAI(){let sm;try{sm=await claude.use("sample")}catch(e){}if(!sm)return alert("IA indisponível nesta visualização.");const S=stats();if(!S.mod.length&&!S.parts.length)return alert("Lance carros e vendas antes de analisar.");
+ const data=JSON.stringify({pecas:S.parts.slice(0,40).map(([k,v])=>({peca:k,vendas:v.n,total:v.v})),modelos:S.mod.slice(0,40).map(([k,v])=>({modelo:k,...v})),vendedores:grp(D.sales,s=>s.vendedor||"?"),pagamentos:grp(D.sales,s=>s.pag),aReceber:sum(D.sales.filter(aberto),s=>s.total)});
+ ai.busy=true;ai.txt="";render();
+ try{const r=await sm(`Você é consultor de um desmanche de carros no Brasil (Varejão Peças Usadas). Dados em R$: ${data}\nPergunta do dono: ${ai.q||"Quais peças mais vendem, quais modelos mais vendem e quais modelos compensa continuar comprando?"}\nResponda em português, direto, sem markdown, em até 12 linhas. Aponte peças e modelos campeões e modelos para comprar de novo ou evitar (retorno = receita de peças / custo do carro). Se houver poucos dados, diga que a conclusão ainda é fraca.`,{onText:({text})=>{ai.txt=text;const e=$("#aitx");if(e)e.textContent=text}});ai.txt=r.text}catch(e){ai.txt="Erro na IA: "+(e.message||e.code||"tente de novo")}
+ ai.busy=false;render()}
+async function csv(){if(!dl)return alert("Download indisponível nesta visualização.");const V=D.sales.filter(s=>inR(s.data));
+ const q=x=>'"'+String(x??"").replace(/"/g,'""')+'"',rows=[["OS","Data","Vendedor","Cliente","Pagamento","Item","Placa","Valor"]];
+ V.forEach(s=>s.itens.forEach(i=>rows.push([s.num,s.data,s.vendedor,s.cliente,s.pag,i.desc,i.placa,i.valor])));
+ try{await dl.save({filename:"vendas-varejao.csv",data:"\ufeff"+rows.map(r=>r.map(q).join(";")).join("\n")})}catch(e){}}
+init();
+</script></body></html>
